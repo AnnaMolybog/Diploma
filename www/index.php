@@ -16,6 +16,7 @@ define('ANALYTIC_CATEGORY', 7);
 define('COMMENTS_PER_PAGE', 5);
 
 session_start();
+
 //Подключение файлов системы
 require_once(ROOT . DS . 'components' . DS . 'autoload.php');
 

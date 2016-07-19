@@ -91,6 +91,7 @@ class Pagination
         }
 
         $html .= $links . '</ul>';
+
         # Возвращаем html
         return $html;
     }

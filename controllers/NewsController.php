@@ -2,38 +2,51 @@
 
 class NewsController
 {
-    public function __construct()
-    {
-        $tags = Tag::getTags();
-    }
-
     //Просмотр всех страниц
     public function actionList()
     {
+        $categories = Category::getCategories();
+        $tags = Tag::getTags();
+        require_once (VIEWS_PATH . DS . 'layouts' . DS . 'header.php');
 
         $latestNews = News::getLatestNews();
-        $tags = Tag::getTags();
         //$newsList = News::getNewsList();
         require_once (VIEWS_PATH . DS . 'news' . DS . 'list.php');
     }
 
     //Просмотр одной страницы
-    public function actionView($id, $page = 1)
+    public function actionView($id, $categoryId = null, $subCategory = null, $page = 1)
     {
-        $tags = Tag::getTags();
-        $categories = Category::getCategories();
-        $newsItem = News::getNewsById($id);
-        $commentsByNews = Comment::getCommentsByNews($newsItem['id_news'], $page);
 
+        $id = intval($id);
+
+        if(!empty($categoryId)){
+            $categoryId = intval($categoryId);
+        }
+        if(!empty($subCategory)){
+            $subCategory = intval($subCategory);
+        }
+        $categories = Category::getCategories();
+        $tags = Tag::getTags();
+        require_once (VIEWS_PATH . DS . 'layouts' . DS . 'header.php');
+
+        $newsItem = News::getNewsById($id, $categoryId, $subCategory);
+        $commentsByNews = Comment::getCommentsByNews($id);
         $currentViews = rand(1,5);
-        $views = $newsItem['views'] + $currentViews;
-        News::updateViews($id, $views);
+        $updatedViews = $newsItem['views'] + $currentViews;
+
+        News::updateViews($newsItem['id_news'], $updatedViews);
+
+
         $tagsByNews = News::getTagsByNews($id);
 
-        $totalComments = Comment::getTotalCommentsByNews($newsItem['id_news']);
-        $pagination = new Pagination($totalComments, $page, COMMENTS_PER_PAGE, 'page-');
+        $totalComments = Comment::getTotalCommentsByNews($id);
 
+        $userInfo = User::checkLogged();
 
+       /* if($userInfo['role'] == 1) {
+            header("Location: /admin");
+        }*/
 
         if($newsItem['id_parent'] == 0) {
             $categoryId = $newsItem['id_category'];
@@ -46,11 +59,18 @@ class NewsController
         }
 
         if(isset($_POST['submit'])) {
+
             $comment = $_POST['comment'];
             $userId = $_SESSION['user'];
             $newsId = $newsItem['id_news'];
             $date = date("Y-m-d H:i:s");
-            Comment::editComment($comment, $userId, $newsId, $date);
+            if($_POST['id_category'] == 4 ) {
+                $approved = 0;
+
+            } else {
+                $approved = 1;
+            }
+            Comment::editComment($comment, $userId, $newsId, $date, $approved);
         }
 
         if(isset($_POST['response'])) {
@@ -59,7 +79,13 @@ class NewsController
             $userId = $_SESSION['user'];
             $newsId = $newsItem['id_news'];
             $date = date("Y-m-d H:i:s");
-            Comment::editComment($comment, $userId, $newsId, $date, $parent_comment);
+            if($_POST['id_category'] == 4 ) {
+                $approved = 0;
+
+            } else {
+                $approved = 1;
+            }
+            Comment::editComment($comment, $userId, $newsId, $date, $approved, $parent_comment);
         }
 
         require_once (VIEWS_PATH . DS . 'news' . DS . 'view.php');
@@ -67,20 +93,4 @@ class NewsController
         return true;
     }
 
-    public function actionLikes($newsId, $commentId)
-    {
-        $commentsByNews = Comment::getCommentsByNews($newsId);
-        $likes = $commentsByNews[0][0]['likes'] + 1;
-        Comment::updateLikes($commentId, $likes);
-        header("Location: /news/$newsId");
-    }
-
-    public function actionDislikes($newsId, $commentId)
-    {
-        $commentsByNews = Comment::getCommentsByNews($newsId);
-       //print_r($commentsByNews); die();
-        $dislikes = $commentsByNews[0][0]['dislikes'] + 1;
-        Comment::updateDislikes($commentId, $dislikes);
-        header("Location: /news/$newsId");
-    }
 }

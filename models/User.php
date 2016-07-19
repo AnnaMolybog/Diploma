@@ -69,17 +69,18 @@ class User
         }
     }
 
-    public static function auth($userId)
+    public static function auth($userId, $userRole)
     {
         $_SESSION['user'] = $userId;
+        $_SESSION['role'] = $userRole;
     }
 
     public static function checkLogged()
     {
-        if(isset($_SESSION['user'])) {
-            return $_SESSION['user'];
-        } else {
-            header("Location: /login/");
+        if(isset($_SESSION['user']) && isset($_SESSION['role'])) {
+            $userInfo['user'] = $_SESSION['user'];
+            $userInfo['role'] = $_SESSION['role'];
+            return $userInfo;
         }
     }
 

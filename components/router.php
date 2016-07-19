@@ -41,6 +41,8 @@ class Router
 
                 $controllerObject = new $controllerName();
 
+                //print_r($actionName);
+
                 $result = call_user_func_array(array($controllerObject, $actionName), $parameters); //параметры передаются как переменные
                 //если контроллер и экшн найден, то выходим из цикла
                 if($result != null) {

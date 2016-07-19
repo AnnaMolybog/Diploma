@@ -23,11 +23,85 @@ class Tag
 
         $row = $sql->fetch();
         if($row) {
-            return $row['id_tag'];
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+    public static function addTag($tag)
+    {
+        if($tag!='') {
+            $db = DB::getConnection();
+            $sql = $db->query(sprintf("INSERT INTO tags (tag) VALUES ('%s')", $tag));
+            if($sql)
+            {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
 
+    }
 
+    public static function checkTag($tags)
+    {
+        $allTag = self::getTags();
+        $tagId = [];
+        foreach ($tags as $value) {
+            $flag = 0;
+            foreach ($allTag as $tag) {
+                if($value == $tag['tag']) {
+                    $flag += 1;
+                    break;
+                }
+                if($flag == 1) {
+                    break;
+                }
+            }
+            if($flag == 0) {
+                self::addTag($value);
+            }
+            $tagId[] = self::getIdByTagName($value);
+        }
+
+        return $tagId;
+    }
+
+    public static function addTagNew($newsId, $tagId)
+    {
+        $db = DB::getConnection();
+        $sql = $db->query(sprintf("INSERT INTO tags_news (id_tag, id_news) VALUES ('%d', '%d')", $tagId, $newsId));
+
+        if($sql)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    public static function deleteTagPost($tagNewId)
+    {
+        $db = DB::getConnection();
+        $sql = $db->query(sprintf("DELETE FROM tags_news WHERE id_tags_news = '%d'", $tagNewId));
+
+        if($sql) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getCurrentTagNew($newsId, $tagId)
+    {
+        $db = DB::getConnection();
+        $sql = $db->query('SELECT * FROM tags_news WHERE id_news=' . $newsId . ' AND id_tag=' . $tagId);
+        $row = $sql->fetch();
+        return $row;
     }
 }

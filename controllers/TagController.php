@@ -5,35 +5,37 @@ class TagController
 
     public function actionTag($tagId, $page = 1)
     {
-        //Список категорий для верхнего меню
-        $categories = Category::getCategories();
-        //Список новостей c данным тегом
-        $tagNews = News::getNewsByTag($tagId, $page);
-        //Pagination
-        $total = News::getTotalNewsByTag($tagId);
-        $pagination = new Pagination($total, $page, NEWS_PER_PAGE, 'page-');
-        $tags = Tag::getTags();
+            $categories = Category::getCategories();
+            $tags = Tag::getTags();
+            require_once(VIEWS_PATH . DS . 'layouts' . DS . 'header.php');
 
-        require_once (VIEWS_PATH . DS . 'tag' . DS . 'tag.php');
-        return true;
+            //Список новостей c данным тегом
+            $tagNews = News::getNewsByTag($tagId, $page);
+            //Pagination
+            $total = News::getTotalNewsByTag($tagId);
+            $pagination = new Pagination($total, $page, NEWS_PER_PAGE, 'page-');
+            $tags = Tag::getTags();
 
+            $userInfo = User::checkLogged();
+
+           /* if ($userInfo['role'] == 1) {
+                header("Location: /admin");
+            }*/
+
+            require_once(VIEWS_PATH . DS . 'tag' . DS . 'tag.php');
+            return true;
 
     }
 
     public function actionSearch($page = 1)
     {
-        $tagName = ($_POST['tag']);
-        $categories = Category::getCategories();
-        //Список новостей c данным тегом
-        $tags = Tag::getTags();
-        $tagId = Tag::getIdByTagName($tagName);
+        if(!empty($_POST)) {
+            $tagName = ($_POST['tag']);
+            $tagId = Tag::getIdByTagName($tagName);
+        }
+        $tagId = $tagId['id_tag'];
         if($tagId) {
-            $tagNews = News::getNewsByTag($tagId, $page);
-            //Pagination
-            $total = News::getTotalNewsByTag($tagId);
-            $pagination = new Pagination($total, $page, NEWS_PER_PAGE, 'page-');
-
-            require_once (VIEWS_PATH . DS . 'tag' . DS . 'tag.php');
+            header("Location: /tag/$tagId");
             return true;
         } else {
             header("Location: /");
