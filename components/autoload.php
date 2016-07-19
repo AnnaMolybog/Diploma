@@ -3,7 +3,7 @@
 class Autoload
 {
     public static function load($className) {
-        $libPath = ROOT . DS . 'components' . DS . $className . '.php';
+        $libPath = ROOT . DS . 'components' . DS . strtolower($className) . '.php';
         $controllersPath = ROOT . DS . 'controllers' . DS . $className . '.php';
         $modelsPath = ROOT . DS . 'models' . DS . $className . '.php';
 

@@ -4,7 +4,7 @@
         </div>
         <div class="col-lg-8 col-md-8 col-sm-8">
 
-            <?php if($_SESSION['role'] == 1) { ?>
+            <?php if(isset($_SESSION['role']) && ($_SESSION['role']) == 1) { ?>
                 <div id="block">В данный момент страницу смотрят пользователей: <?=$currentViews?></div>
                 <div style="float: right; font-size: 12px; margin-right: 20px;">
                     <span class="glyphicon glyphicon-comment" aria-hidden="true" style="padding-right: 10px;"></span><?=$totalComments?>
@@ -136,7 +136,7 @@
             </form>
                 <br>
             <?php } ?>
-            <?php $commentsTree = new CommentsTree(); $commentsTree->tree($newsItem['id_category'], $userLogin, $newsItem['id_news'], $commentsByNews) ?>
+            <?php $commentsTree = new CommentsTree(); $commentsTree->tree($newsItem['id_category'], $newsItem['id_news'], $commentsByNews) ?>
         <?php } ?>
         </div>
 

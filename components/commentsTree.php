@@ -2,7 +2,7 @@
 
 class CommentsTree
 {
-    public function tree($categoryId, $userLogin, $newsId, $commentsByNews, $parentId = 0)
+    public function tree($categoryId, $newsId, $commentsByNews, $parentId = 0)
     {
         if(empty($commentsByNews[$parentId])) {
             return;
@@ -11,7 +11,7 @@ class CommentsTree
 
 
         for($i = 0; $i < count($commentsByNews[$parentId]); $i++){
-            if($_SESSION['role'] == 1) {
+            if(isset($_SESSION['role']) && $_SESSION['role'] == 1) {
                 echo "<form method=\"post\" action=\"/admin/commentUpdate\" style=\"padding-top: -20px; padding-bottom: -20px\">";
                 echo "<div class=\"panel - body\" style='margin-left: 20px; margin-right: 10px'>";
                 echo "<div class=\"form-group\">";
@@ -66,6 +66,7 @@ class CommentsTree
                 echo "</div>";
                 echo "<div class=\"form-group\">";
                 echo "<label>Логин</label>";
+                    $userLogin = User::getUserLoginById($_SESSION['user']);
                 echo "<input disabled type=\"email\" class=\"form-control\" name=\"user_email\" placeholder=\"Email\" value=\"$userLogin\">";
                 echo "</div>";
                 echo "<div class=\"form-group\">";
@@ -77,7 +78,7 @@ class CommentsTree
                 echo "<br>";
             }
 
-            self::tree($categoryId, $userLogin, $newsId, $commentsByNews, $commentsByNews[$parentId][$i]['id_comment']);
+            self::tree($categoryId, $newsId, $commentsByNews, $commentsByNews[$parentId][$i]['id_comment']);
             echo "</div>";
 
         }

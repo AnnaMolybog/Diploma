@@ -36,7 +36,8 @@ class AdminController
 
             $check = $_POST['check'];
 
-            $uploadDir = 'C:\xampp\htdocs\Diploma\www\images\\' . basename($_FILES['image']['name']);
+            $uploadDir = ROOT . '/www/images/' . basename($_FILES['image']['name']);
+            echo $uploadDir; die;
             move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir);
             News::addNews($title, $content, $date, $categoryId, $check);
             $newsId = News::getLastNew();
