@@ -20,8 +20,11 @@ class Router
 
     public function run()
     {
+
         //получаем строку запроса
         $uri = $this->getUri();
+        //echo "<pre>";
+       // print_r($uri);
 
         //Проверить есть ли такой запрос в routes.php
         foreach ($this->routes as $uriPattern => $path){
@@ -39,6 +42,8 @@ class Router
                 $parameters = $segment;
                 //Создать объект и вызвать метод
 
+               //print_r($controllerName);
+
                 $controllerObject = new $controllerName();
 
                 //print_r($actionName);
@@ -51,6 +56,7 @@ class Router
             }
         }
 
-
     }
 }
+
+

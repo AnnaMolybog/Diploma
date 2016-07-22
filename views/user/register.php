@@ -1,8 +1,5 @@
 
-    <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            Реклама
-        </div>
+
         <div class="col-lg-8 col-md-8 col-sm-8">
             <?php if($result) { ?>
             <p>Вы зарегистрированы</p>
@@ -34,9 +31,4 @@
 
         </div>
 
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            Реклама
-        </div>
-
-    </div>
 <?php include (VIEWS_PATH . DS . 'layouts' . DS . 'footer.php');?>

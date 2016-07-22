@@ -2,6 +2,13 @@
 
 return array(
     //'news/([a-z]+)/([0-9]+)' => 'news/view/$1/$2',
+    //'postViews' => 'news/postViews',
+    //'postViews/category/([0-9]+)/([0-9]+)/news/([0-9]+)' => 'news/postViews/$1/$2/$3',
+    //'postViews/category/([0-9]+)/news/([0-9]+)' => 'news/postViews/$1/$2',
+    'advertisingViews/([0-9]+)' => 'site/advertising/$1',
+
+    'postViews/([0-9]+)/([0-9]+)' => 'news/postViews/$1/$2',
+    'postViews/([0-9]+)/([0-9]+)/([0-9]+)' => 'news/postViews/$1/$2/$3',
     'admin/postAdd' => 'admin/postAdd',
     'admin/postEdit' => 'admin/postEdit',
     'admin/commentUpdate' => 'admin/commentUpdate',
@@ -9,6 +16,7 @@ return array(
     'admin/categoryAdd' => 'admin/categoryAdd',
     'admin/color' => 'admin/color',
     'admin/name' => 'admin/name',
+
     'admin/advertisement' => 'admin/advertisement',
     'admin' => 'admin/index',
 
@@ -38,6 +46,7 @@ return array(
 
     'news/([0-9]+)/page-([0-9]+)' =>'news/view/$1/$2',
     'news/([0-9]+)' =>'news/view/$1',
-
+    'news/search/page-([0-9]+)' => 'news/search/$1',
+    'news/search' => 'news/search',
     '' => 'site/index',
 );

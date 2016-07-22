@@ -1,18 +1,15 @@
-    <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            Реклама
-        </div>
+
         <div class="col-lg-8 col-md-8 col-sm-8">
 
             <?php if(isset($_SESSION['role']) && ($_SESSION['role']) == 1) { ?>
-                <div id="block">В данный момент страницу смотрят пользователей: <?=$currentViews?></div>
+                <div id="content"></div>
                 <div style="float: right; font-size: 12px; margin-right: 20px;">
                     <span class="glyphicon glyphicon-comment" aria-hidden="true" style="padding-right: 10px;"></span><?=$totalComments?>
-                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="padding-right: 10px;"></span><?=$newsItem['views']?>
+                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="padding-right: 10px;" id="total_views"></span>
                 </div>
                 <hr>
 
-                <a href = "/category/<?=$newsItem['id_category']?><?php if(($newsItem['id_parent'])!=0) { ?>/<?=$newsItem['id_parent']?><?php } ?>/news/<?=$newsItem['id_news']?>"><img style="margin-right: 15px" class="img-rounded" width="250" height="250" src="/images/<?=$newsItem['id_news']?>.jpg"></a>
+                <a href = "/category/<?=$newsItem['id_category']?><?php if(($newsItem['id_parent'])!=0) { ?>/<?=$newsItem['id_parent']?><?php } ?>/news/<?=$newsItem['id_news']?>"><img style="margin-right: 15px" class="img-rounded" width="250" height="250" src="/www/images/<?=$newsItem['id_news']?>.jpg"></a>
 
                 <form method="post" action="/admin/postEdit">
                 <div class="form-group">
@@ -84,20 +81,20 @@
                     <input type="submit" class="btn btn-default" name="submit" value="Отправить">
                 </form>
                 <br>
-                <?php $commentsTree = new CommentsTree(); $commentsTree->tree($newsItem['id_category'], $userLogin, $newsItem['id_news'], $commentsByNews) ?>
+                <?php $commentsTree = new CommentsTree(); $commentsTree->tree($newsItem['id_category'], $newsItem['id_news'], $commentsByNews);  ?>
 
             <?php } else { ?>
 
             <h3><a href = "/category/<?=$newsItem['id_category']?><?php if(($newsItem['id_parent'])!=0) { ?>/<?=$newsItem['id_parent']?><?php } ?>/news/<?=$newsItem['id_news']?>"><?=$newsItem['title']?></a></h3>
             <em><?=$newsItem['date']?><br></em>
-            <div id="block">В данный момент страницу смотрят пользователей: <?=$currentViews?></div>
+            <div id="content"></div>
             <div style="float: right; font-size: 12px; margin-right: 20px;">
                 <span class="glyphicon glyphicon-comment" aria-hidden="true" style="padding-right: 10px;"></span><?=$totalComments?>
-                <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="padding-right: 10px;"></span><?=$newsItem['views']?>
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="padding-right: 10px;" id="total_views"></span>
             </div>
             <hr>
 
-                <a href = "/category/<?=$newsItem['id_category']?><?php if(($newsItem['id_parent'])!=0) { ?>/<?=$newsItem['id_parent']?><?php } ?>/news/<?=$newsItem['id_news']?>"><img style="float: left; margin-right: 15px" class="img-rounded" width="250" height="250" src="/images/<?=$newsItem['id_news']?>.jpg"></a>
+                <a href = "/category/<?=$newsItem['id_category']?><?php if(($newsItem['id_parent'])!=0) { ?>/<?=$newsItem['id_parent']?><?php } ?>/news/<?=$newsItem['id_news']?>"><img style="float: left; margin-right: 15px" class="img-rounded" width="250" height="250" src="/www/images/<?=$newsItem['id_news']?>.jpg"></a>
                 <?php if(User::isGuest() && $newsItem['id_category'] == ANALYTIC_CATEGORY) { ?>
                 <div style="height: 250px">
                     <p><?=mb_substr($newsItem['content'], 0, NEWS_LENGTH_ANALYTIC);?></p>
@@ -140,17 +137,26 @@
         <?php } ?>
         </div>
 
-<div class="col-lg-2 col-md-2 col-sm-2">
-    Реклама
-</div>
-
-</div>
-<hr>
     <script>
+        function show()
+        {
+            $.ajax({
+                type: "POST",
+                url: "/postViews/<?=$newsItem['id_news']?>/<?=$newsItem['id_category']?><?php if(($newsItem['id_parent'])!=0) { ?>/<?=$newsItem['id_parent']?><?php } ?>",
+                cache: false,
+                dataType: "json",
+
+                success: function(data){
+                    console.log(data.current_views);
+                    $("#content").html(data.current_views);
+                    $("#total_views").html(data.updated_views);
+                }
+            });
+        }
 
         $(document).ready(function(){
-            refresh();
-            setInterval('refresh()',30000);
+            show();
+            setInterval('show()',3000);
         });
     </script>
 

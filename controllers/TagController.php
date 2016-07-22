@@ -5,8 +5,14 @@ class TagController
 
     public function actionTag($tagId, $page = 1)
     {
-            $categories = Category::getCategories();
-            $tags = Tag::getTags();
+        $categories = Category::getCategories();
+        $tags = Tag::getTags();
+        $topThree = News::getTopNewsByComments();
+        $topFive = News::getTopUsersByComments();
+        $advertising = Advertising::getAdvertising();
+        $mostViewedAdvertising = [$advertising[0], $advertising[1]];
+        unset($advertising[0], $advertising[1]);
+        shuffle($advertising);
             require_once(VIEWS_PATH . DS . 'layouts' . DS . 'header.php');
 
             //Список новостей c данным тегом

@@ -33,11 +33,15 @@ class AdminController
             $tags = explode('#', $_POST['tag']);
 
             unset($tags[0]);
+            if(isset($_POST['check'])) {
+                $check = $_POST['check'];
+            } else {
+                $check = 'off';
+            }
 
-            $check = $_POST['check'];
 
-            $uploadDir = ROOT . '/www/images/' . basename($_FILES['image']['name']);
-            echo $uploadDir; die;
+            $uploadDir = ROOT . DS . 'www' . DS . 'images' . DS . basename($_FILES['image']['name']);
+            //echo $uploadDir; die;
             move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir);
             News::addNews($title, $content, $date, $categoryId, $check);
             $newsId = News::getLastNew();
@@ -218,20 +222,38 @@ class AdminController
         return true;
     }
 
-    public function actionadvertisement()
+    public function actionAdvertisement()
     {
         $categories = Category::getCategories();
         // echo "<pre>";
         // print_r($categories); die;
         $imageName = News::getImageName();
         $tags = Tag::getTags();
-
+        $advertising = Advertising::getAdvertising();
 
         $userId = User::checkLogged();
+
+        if(isset($_POST['add'])) {
+            //print_r($_POST); die;
+            Advertising::addAdvertising($_POST['product_name'], $_POST['price'], $_POST['company']);
+            header("Location: /admin/advertisement");
+        }
+
+        if(isset($_POST['update'])) {
+            Advertising::updateAdvertising($_POST['id_advertising'], $_POST['product_name'], $_POST['price'], $_POST['company']);
+            header("Location: /admin/advertisement");
+        }
+
+        if(isset($_POST['delete'])) {
+            Advertising::deleteAdvertising($_POST['id_advertising']);
+            header("Location: /admin/advertisement");
+        }
         require_once (VIEWS_PATH . DS . 'layouts' . DS . 'admin_header.php');
         require_once (VIEWS_PATH . DS . 'admin' . DS . 'advertisement.php');
 
         return true;
     }
+
+
 
 }

@@ -34,4 +34,4 @@
 
 </div>
 <hr>
-<?php include (VIEWS_PATH . DS . 'layouts' . DS . 'footer.php');?>
+<?php include (VIEWS_PATH . DS . 'layouts' . DS . 'admin_footer.php');?>

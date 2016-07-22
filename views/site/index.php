@@ -1,27 +1,3 @@
-
-    <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <div class="row" style="margin-top: -6px">
-                <hr>
-                <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center; height: 200px">
-                    <h4 style="text-align: center">Топ-3 активные темы</h4>
-                    <?php foreach($topThree as $topNews) { ?>
-                        <h5><a href = "/category/<?=$topNews['id_category']?><?php if(isset($topNews['id_parent'])) { ?>/<?=$topNews['id_parent']?><?php } ?>/news/<?=$topNews['id_news']?>"><?=$topNews['title']?></a></h5>
-                        <p style="margin-top: -10px"><em style="font-size: 12px; margin-right: 10px;">
-                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style="padding-right: 5px;"></span><?=$topNews['likes']; ?>
-                                <span class="glyphicon glyphicon-comment" aria-hidden="true" style="padding-right: 5px;"></span><?=Comment::getTotalCommentsByNews($topNews['id_news'])?>
-                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="padding-right: 5px;"></span><?=$topNews['views']?>
-                            </em></p>
-                    <?php } ?>
-                    <hr>
-                </div>
-
-                <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center">
-                    Реклама
-                </div>
-            </div>
-
-        </div>
         <div class="col-lg-8 col-md-8 col-sm-8">
             <h4 style="text-align: center; margin-bottom: -15px; margin-top: -10px">Сейчас читают</h4><hr>
                 <div class="row">
@@ -29,7 +5,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="col-sm-12 col-md-12">
                             <div class="thumbnail">
-                                <a href = "/category/<?=$mostReadNews[0]['id_category']?><?php if(isset($mostReadNews[0]['id_parent'])) { ?>/<?=$mostReadNews[0]['id_parent']?><?php } ?>/news/<?=$mostReadNews[0]['id_news']?>"><img style="height: 300px; width: 100%" class="img" src="/images/<?=$mostReadNews[0]['id_news']?>.jpg"></a>
+                                <a href = "/category/<?=$mostReadNews[0]['id_category']?><?php if(isset($mostReadNews[0]['id_parent'])) { ?>/<?=$mostReadNews[0]['id_parent']?><?php } ?>/news/<?=$mostReadNews[0]['id_news']?>"><img style="height: 300px; width: 100%" class="img" src="/www/images/<?=$mostReadNews[0]['id_news']?>.jpg"></a>
                                 <div class="caption" style="height: 100px; margin-top: -10px">
                                     <h3><a href = "/category/<?=$mostReadNews[0]['id_category']?><?php if(isset($mostReadNews[0]['id_parent'])) { ?>/<?=$mostReadNews[0]['id_parent']?><?php } ?>/news/<?=$mostReadNews[0]['id_news']?>"><?=$mostReadNews[0]['title']?></a></h3>
                                     <em style="font-size: 12px"><?=$mostReadNews[0]['date']?></em>
@@ -46,7 +22,7 @@
                         <?php foreach($mostReadNews as $new) { ?>
                         <div class="col-sm-6 col-md-6">
                             <div class="thumbnail">
-                                <a href = "/category/<?=$new['id_category']?><?php if(isset($new['id_parent'])) { ?>/<?=$new['id_parent']?><?php } ?>/news/<?=$new['id_news']?>"><img class="img" style="height: 100px; width: 100%" src="/images/<?=$new['id_news']?>.jpg"></a>
+                                <a href = "/category/<?=$new['id_category']?><?php if(isset($new['id_parent'])) { ?>/<?=$new['id_parent']?><?php } ?>/news/<?=$new['id_news']?>"><img class="img" style="height: 100px; width: 100%" src="/www/images/<?=$new['id_news']?>.jpg"></a>
                                 <div class="caption" style="height: 90px; margin-top: -10px">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12" style="height: 55px">
@@ -106,7 +82,7 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
                         <div class="item active">
-                            <img style="height: 205px; width: 100%" src="/images/<?=$sliderNews[0]['id_news']?>.jpg" alt="...">
+                            <img style="height: 205px; width: 100%" src="/www/images/<?=$sliderNews[0]['id_news']?>.jpg" alt="...">
                             <div class="carousel-caption">
                                 <a href="/category/<?=$sliderNews[0]['id_category']?><?php if(isset($sliderNews[0]['id_parent'])) { ?>/<?=$sliderNews[0]['id_parent']?><?php } ?>/news/<?=$sliderNews[0]['id_news']?>"><h3><?=$sliderNews[0]['title'];?></h3></a>
                                 <?php unset($sliderNews[0]) ?>
@@ -114,7 +90,7 @@
                         </div>
                         <?php foreach($sliderNews as $sliderNew) { ?>
                             <div class="item">
-                                <img style="height: 205px; width: 100%" src="/images/<?=$sliderNew['id_news']?>.jpg" alt="...">
+                                <img style="height: 205px; width: 100%" src="/www/images/<?=$sliderNew['id_news']?>.jpg" alt="...">
                                 <div class="carousel-caption">
                                     <a href="/category/<?=$sliderNew['id_category']?><?php if(isset($sliderNew['id_parent'])) { ?>/<?=$sliderNew['id_parent']?><?php } ?>/news/<?=$sliderNew['id_news']?>?>"><h3><?=$sliderNew['title'] ?></h3> </a>
                                 </div>
@@ -149,7 +125,7 @@
                                     <?php if(!empty($categoryNews[$i])) { ?>
                                     <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="thumbnail">
-                                            <a href = "/category/<?=$category['id_category'] ?>/news/<?=$categoryNews[$i]['id_news']?>"><img class="img" style="height: 100px; width: 100%" src="/images/<?=$categoryNews[$i]['id_news']?>.jpg"></a>
+                                            <a href = "/category/<?=$category['id_category'] ?>/news/<?=$categoryNews[$i]['id_news']?>"><img class="img" style="height: 100px; width: 100%" src="/www/images/<?=$categoryNews[$i]['id_news']?>.jpg"></a>
                                             <div class="caption" style="height: 90px; margin-top: -10px">
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12" style="height: 55px">
@@ -196,26 +172,6 @@
             </div>
         </div>
 
-        <div class="col-lg-2 col-md-2 col-sm-2">
 
-
-            <div class="row" style="margin-top: -6px">
-                <hr>
-                <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center; height: 200px;">
-                    <h4 style="text-align: center">Топ-5 комментаторов</h4>
-                    <?php foreach($topFive as $topUsers) { ?>
-                        <h5><a href = "/comment/<?=$topUsers['id_user']?>"><?=$topUsers['login']?></a></h5>
-                    <?php } ?>
-                    <hr>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center">
-                    Реклама
-                </div>
-            </div>
-        </div>
-
-    </div>
-    </div>
-    <hr>
 
     <?php include (VIEWS_PATH . DS . 'layouts' . DS . 'footer.php');?>

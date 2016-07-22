@@ -466,4 +466,583 @@ class News
             return false;
         }
     }
+
+    public static function searchByDateFrom($dateFrom){
+    $db = DB::getConnection();
+    $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            WHERE date >= '$dateFrom 00:00:00'
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+
+    $i = 0;
+    $searchResult = [];
+    while($row = $sql->fetch()){
+        $searchResult[$i]['id_news'] = $row['id_news'];
+        $searchResult[$i]['title'] = $row['title'];
+        $searchResult[$i]['content'] = $row['content'];
+        $searchResult[$i]['date'] = $row['date'];
+        $searchResult[$i]['views'] = $row['views'];
+        $searchResult[$i]['likes'] = $row['likes'];
+        $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+        $searchResult[$i]['id_category'] = $row['id_category'];
+        $searchResult[$i]['category'] = $row['category'];
+        $searchResult[$i]['id_parent'] = $row['id_parent'];
+        $i++;
+    }
+    return $searchResult;
+    }
+
+    public static function searchByDateTo($dateTo){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            WHERE date <= '$dateTo 23:59:59'
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateFromDateTo($dateFrom, $dateTo){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            WHERE date >= '$dateFrom 00:00:00' AND date <= '$dateTo 23:59:59'
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateFromDateToCategory($dateFrom, $dateTo, $category){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            WHERE date >= '$dateFrom 00:00:00' AND date <= '$dateTo 23:59:59' AND c.id_category IN ($category)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByCategory($category){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            WHERE c.id_category IN ($category)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateFromCategory($dateFrom, $category){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            WHERE date >= '$dateFrom 00:00:00' AND c.id_category IN ($category)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateToCategory($dateTo, $category){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            WHERE date <= '$dateTo 23:59:59' AND c.id_category IN ($category)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateFromDateToCategoryTag($dateFrom, $dateTo, $category, $tags){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            LEFT JOIN tags_news as tn ON tn.id_news = n.id_news
+                            LEFT JOIN tags as t ON t.id_tag = tn.id_tag
+                            WHERE date >= '$dateFrom 00:00:00' AND date <= '$dateTo 23:59:59' AND c.id_category IN ($category)
+                            AND t.id_tag IN ($tags)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+       // echo $sql; die;
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateToCategoryTag($dateTo, $category, $tags){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            LEFT JOIN tags_news as tn ON tn.id_news = n.id_news
+                            LEFT JOIN tags as t ON t.id_tag = tn.id_tag
+                            WHERE date <= '$dateTo 23:59:59' AND c.id_category IN ($category)
+                            AND t.id_tag IN ($tags)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+        // echo $sql; die;
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateFromCategoryTag($dateFrom, $category, $tags){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            LEFT JOIN tags_news as tn ON tn.id_news = n.id_news
+                            LEFT JOIN tags as t ON t.id_tag = tn.id_tag
+                            WHERE date >= '$dateFrom 00:00:00' AND c.id_category IN ($category)
+                            AND t.id_tag IN ($tags)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+        // echo $sql; die;
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByCategoryTag($category, $tags){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            LEFT JOIN tags_news as tn ON tn.id_news = n.id_news
+                            LEFT JOIN tags as t ON t.id_tag = tn.id_tag
+                            WHERE c.id_category IN ($category)
+                            AND t.id_tag IN ($tags)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+        // echo $sql; die;
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateFromTag($dateFrom, $tags){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            LEFT JOIN tags_news as tn ON tn.id_news = n.id_news
+                            LEFT JOIN tags as t ON t.id_tag = tn.id_tag
+                            WHERE date >= '$dateFrom 00:00:00'
+                            AND t.id_tag IN ($tags)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+        // echo $sql; die;
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateToTag($dateTo, $tags){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            LEFT JOIN tags_news as tn ON tn.id_news = n.id_news
+                            LEFT JOIN tags as t ON t.id_tag = tn.id_tag
+                            WHERE date <= '$dateTo 23:59:59'
+                            AND t.id_tag IN ($tags)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+        // echo $sql; die;
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByDateFromDateToTag($dateFrom, $dateTo, $tags){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            LEFT JOIN tags_news as tn ON tn.id_news = n.id_news
+                            LEFT JOIN tags as t ON t.id_tag = tn.id_tag
+                            WHERE date >= '$dateFrom 00:00:00' AND date <= '$dateTo 23:59:59'
+                            AND t.id_tag IN ($tags)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+        // echo $sql; die;
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
+
+    public static function searchByTag($tags){
+        $db = DB::getConnection();
+        $sql = $db->query("SELECT n.id_news as id_news,
+                            n.title as title,
+                            n.content as content,
+                            n.date as date,
+                            n.views as views,
+                            n.likes as likes,
+                            n.id_sub_category as id_sub_category,
+                            c.id_category as id_category,
+                            c.category as category,
+                            sc.id_parent as id_parent
+
+                            FROM news as n
+                            LEFT JOIN sub_category as sc ON sc.id_sub_category= n.id_sub_category
+                            LEFT JOIN categories as c ON c.id_category = sc.id_category
+                            LEFT JOIN tags_news as tn ON tn.id_news = n.id_news
+                            LEFT JOIN tags as t ON t.id_tag = tn.id_tag
+                            WHERE t.id_tag IN ($tags)
+                            GROUP BY n.id_news ORDER BY `date` DESC");
+        // echo $sql; die;
+
+        $i = 0;
+        $searchResult = [];
+        while($row = $sql->fetch()){
+            $searchResult[$i]['id_news'] = $row['id_news'];
+            $searchResult[$i]['title'] = $row['title'];
+            $searchResult[$i]['content'] = $row['content'];
+            $searchResult[$i]['date'] = $row['date'];
+            $searchResult[$i]['views'] = $row['views'];
+            $searchResult[$i]['likes'] = $row['likes'];
+            $searchResult[$i]['id_sub_category'] = $row['id_sub_category'];
+            $searchResult[$i]['id_category'] = $row['id_category'];
+            $searchResult[$i]['category'] = $row['category'];
+            $searchResult[$i]['id_parent'] = $row['id_parent'];
+            $i++;
+        }
+        return $searchResult;
+    }
 }

@@ -1,31 +1,37 @@
-
+<div class="col-lg-8 col-md-8 col-sm-8">
     <div class="row">
-        <div class="col-lg-1 col-md-1 col-sm-1">
-        </div>
-        <div class="col-lg-9 col-md-9 col-sm-9">
-            <?php foreach ($latestNews as $post) { ?>
-                <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-3">
-                        <img class="img-circle" width="200" height="200" src="" style="float: left">
-                    </div>
-                    <div class="col-lg-9 col-md-9 col-sm-9">
-                        <h3><a href = "news/<?=$post['id_news']?>"><?=$post['title']?></a></h3>
-                        <em><?=$post['date']?></em>
-                        <p><?=mb_substr($post['content'], 0, ARTICLE_LENGTH_MAIN_PAGE)?><a href = "news/<?=$post['id_news']?>">...</a></p>
-                    </div>
-                </div><hr>
-            <?php } ?>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            Реклама
-        </div>
+        <?php if(!empty($searchResult)) { ?>
 
+            <div class="col-lg-12 col-md-12 col-sm-12">
+
+                <?php foreach($searchResult as $new) { ?>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="thumbnail">
+                            <a href = "/category/<?=$new['id_category']?><?php if(($new['id_parent']) != 0) { ?>/<?=$new['id_parent']?><?php } ?>/news/<?=$new['id_news']?>"><img class="img" style="height: 100px; width: 100%" src="/www/images/<?=$new['id_news']?>.jpg"></a>
+                            <div class="caption" style="height: 90px; margin-top: -10px">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="height: 55px">
+                                        <h4><a href = "/category/<?=$new['id_category']?><?php if(($new['id_parent'])!=0) { ?>/<?=$new['id_parent']?><?php } ?>/news/<?=$new['id_news']?>"><?=$new['title']?></a></h4>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" style="height: 35px">
+                                        <p style="margin-top: -10px"><em style="font-size: 12px;"><?=$new['date']?></em></p>
+                                        <p style="margin-top: -10px"><em style="font-size: 12px; margin-right: 10px;">
+                                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style="padding-right: 5px;"></span><?=$new['likes']; ?>
+                                                <span class="glyphicon glyphicon-comment" aria-hidden="true" style="padding-right: 5px;"></span><?=Comment::getTotalCommentsByNews($new['id_news'])?>
+                                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="padding-right: 5px;"></span><?=$new['views']?>
+                                            </em></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php }?>
+            </div>
+        <?php } else {echo "Нет новостей в данной категории";} ?>
     </div>
     <hr>
-    <nav style="text-align: center">
-        <ul class="pagination">
-            <li><a href="">Страницы</a></li>
-        </ul>
-    </nav>
+
+</div>
+
 
 <?php include (VIEWS_PATH . DS . 'layouts' . DS . 'footer.php');?>

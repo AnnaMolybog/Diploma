@@ -1,7 +1,4 @@
-<div class="row">
-<div class="col-lg-2 col-md-2 col-sm-2">
-    Реклама
-</div>
+
 <div class="col-lg-8 col-md-8 col-sm-8">
     <a href="/comment/<?=$userComments[0]['id_user']?>"><h4><?=$userComments[0]['login']?></h4></a>
     <?php if(User::isGuest() or ($userComments[0]['id_user'] != $_SESSION['user'])) { ?>
@@ -42,12 +39,12 @@
         </form>
     <?php }?>
     <?php }?>
+    <nav style="text-align: center">
+        <?php echo $pagination->get(); ?>
+    </nav>
 </div>
-<div class="col-lg-2 col-md-2 col-sm-2">
-    Реклама
-</div>
-</div>
-<nav style="text-align: center">
-    <?php echo $pagination->get(); ?>
-</nav>
+
+<?php include (VIEWS_PATH . DS . 'layouts' . DS . 'footer.php');?>
+
+
 

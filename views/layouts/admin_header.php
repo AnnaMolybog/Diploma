@@ -35,7 +35,12 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/"><?=$_SESSION['site_name']?></a>
+                    <a class="navbar-brand" href="/"><?if(!empty($_SESSION['site_name'])){
+                            echo $_SESSION['site_name'];
+                        } else {
+                            echo "NEWS.net";
+                        } ?>
+                    </a>
                 </div>
 
                 <?php if(User::isGuest()) { ?>
@@ -83,10 +88,18 @@
                     <form method="post" class="navbar-form navbar-left" role="search" action="/admin/color">
                         <div class="form-group">
                             <select name="color" class="form-control">
-                                <option <?php if($_SESSION['color'] == 'White') { echo "selected"; }?> value="White">Color: White</option>
-                                <option <?php if($_SESSION['color'] == 'Snow') { echo "selected"; }?> value="Snow">Color: Snow</option>
-                                <option <?php if($_SESSION['color'] == 'GhostWhite') { echo "selected"; }?> value="GhostWhite">Color: GhostWhite</option>
-                                <option <?php if($_SESSION['color'] == 'Ivory') { echo "selected"; }?> value="Ivory">Color: Ivory</option>
+                                <?php if(!empty($_SESSION['color'])) { ?>
+                                    <option <?php if($_SESSION['color'] == 'White') { echo "selected"; }?> value="White">Color: White</option>
+                                    <option <?php if($_SESSION['color'] == 'Snow') { echo "selected"; }?> value="Snow">Color: Snow</option>
+                                    <option <?php if($_SESSION['color'] == 'GhostWhite') { echo "selected"; }?> value="GhostWhite">Color: GhostWhite</option>
+                                    <option <?php if($_SESSION['color'] == 'Ivory') { echo "selected"; }?> value="Ivory">Color: Ivory</option>
+                               <?php } else { ?>
+                                    <option selected value="White">Color: White</option>
+                                    <option value="Snow">Color: Snow</option>
+                                    <option value="GhostWhite">Color: GhostWhite</option>
+                                    <option value="Ivory">Color: Ivory</option>
+                               <?php } ?>
+
                             </select>
                         </div>
                         <button type="submit" class="btn btn-default">Установить</button>

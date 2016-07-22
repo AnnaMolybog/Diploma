@@ -5,6 +5,12 @@ class UserController
     {
         $categories = Category::getCategories();
         $tags = Tag::getTags();
+        $topThree = News::getTopNewsByComments();
+        $topFive = News::getTopUsersByComments();
+        $advertising = Advertising::getAdvertising();
+        $mostViewedAdvertising = [$advertising[0], $advertising[1]];
+        unset($advertising[0], $advertising[1]);
+        shuffle($advertising);
         require_once (VIEWS_PATH . DS . 'layouts' . DS . 'header.php');
         $userLogin = '';
         $userEmail = '';
@@ -83,6 +89,12 @@ class UserController
         }
         $categories = Category::getCategories();
         $tags = Tag::getTags();
+        $topThree = News::getTopNewsByComments();
+        $topFive = News::getTopUsersByComments();
+        $advertising = Advertising::getAdvertising();
+        $mostViewedAdvertising = [$advertising[0], $advertising[1]];
+        unset($advertising[0], $advertising[1]);
+        shuffle($advertising);
         require_once (VIEWS_PATH . DS . 'layouts' . DS . 'header.php');
 
         require_once (VIEWS_PATH . DS . 'user' . DS . 'login.php');
@@ -101,6 +113,12 @@ class UserController
     {
         $categories = Category::getCategories();
         $tags = Tag::getTags();
+        $topThree = News::getTopNewsByComments();
+        $topFive = News::getTopUsersByComments();
+        $advertising = Advertising::getAdvertising();
+        $mostViewedAdvertising = [$advertising[0], $advertising[1]];
+        unset($advertising[0], $advertising[1]);
+        shuffle($advertising);
         require_once (VIEWS_PATH . DS . 'layouts' . DS . 'header.php');
         $userComments = Comment::getCommentByUser($userId, $page);
         $total = Comment::getTotalCommentsByUser($userId);
@@ -114,6 +132,12 @@ class UserController
     {
         $categories = Category::getCategories();
         $tags = Tag::getTags();
+        $topThree = News::getTopNewsByComments();
+        $topFive = News::getTopUsersByComments();
+        $advertising = Advertising::getAdvertising();
+        $mostViewedAdvertising = [$advertising[0], $advertising[1]];
+        unset($advertising[0], $advertising[1]);
+        shuffle($advertising);
         require_once (VIEWS_PATH . DS . 'layouts' . DS . 'header.php');
         $userComments = Comment::getCommentByUser($userId, $page);
         //echo "<pre>";

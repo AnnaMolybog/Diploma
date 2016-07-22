@@ -70,6 +70,31 @@ class Tag
         return $tagId;
     }
 
+    public static function checkTagsForSearch($tags)
+    {
+        $allTag = self::getTags();
+        $tagId = [];
+        foreach ($tags as $value) {
+            $flag = 0;
+            foreach ($allTag as $tag) {
+                if($value == $tag['tag']) {
+                    $flag += 1;
+                    $tagId[] = self::getIdByTagName($value);
+                    break;
+                }
+                if($flag == 1) {
+                    break;
+                }
+            }
+            if($flag == 0) {
+                unset($value);
+            }
+
+        }
+
+        return $tagId;
+    }
+
     public static function addTagNew($newsId, $tagId)
     {
         $db = DB::getConnection();

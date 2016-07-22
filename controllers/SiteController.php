@@ -13,6 +13,10 @@ class SiteController
         $tags = Tag::getTags();
         $topThree = News::getTopNewsByComments();
         $topFive = News::getTopUsersByComments();
+        $advertising = Advertising::getAdvertising();
+        $mostViewedAdvertising = [$advertising[0], $advertising[1]];
+        unset($advertising[0], $advertising[1]);
+        shuffle($advertising);
 
         $userInfo = User::checkLogged();
 
@@ -26,4 +30,14 @@ class SiteController
         return true;
 
     }
+
+    public function actionAdvertising($advertisingId)
+    {
+        $views = Advertising::getCurrentAdvertising($advertisingId);
+        $totalViews = $views['views'] + 1;
+        Advertising::updateViews($advertisingId, $totalViews);
+        $location = $views['company'];
+        header("Location: $location");
+    }
 }
+

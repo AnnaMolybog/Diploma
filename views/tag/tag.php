@@ -1,7 +1,4 @@
 
-        <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2">
-            </div>
             <div class="col-lg-8 col-md-8 col-sm-8">
                 <div class="row">
                     <?php if(!empty($tagNews)) { ?>
@@ -14,7 +11,7 @@
                             <div class="col-sm-12 col-md-12">
 
                                 <div class="thumbnail">
-                                    <a href = "/news/<?=$tagNews[0]['id_news']?>"><img class="img" style="height: 350px; width: 100%" src="/images/<?=$tagNews[0]['id_news']?>.jpg"></a>
+                                    <a href = "/news/<?=$tagNews[0]['id_news']?>"><img class="img" style="height: 350px; width: 100%" src="/www/images/<?=$tagNews[0]['id_news']?>.jpg"></a>
                                     <div class="caption" style="height: 180px">
                                         <h3><a href = "/news/<?=$tagNews[0]['id_news']?>"><?=$tagNews[0]['title']?></a></h3>
                                         <em><?=$tagNews[0]['date']; unset($tagNews[0])?></em>
@@ -26,7 +23,7 @@
                             <?php foreach($tagNews as $new) { ?>
                                 <div class="col-sm-6 col-md-6">
                                     <div class="thumbnail">
-                                        <a href = "/news/<?=$new['id_news']?>"><img class="img" style="height: 140px; width: 100%" src="/images/<?=$new['id_news']?>.jpg"></a>
+                                        <a href = "/news/<?=$new['id_news']?>"><img class="img" style="height: 140px; width: 100%" src="/www/images/<?=$new['id_news']?>.jpg"></a>
                                         <div class="caption" style="height: 110px">
                                             <h4><a href = "/news/<?=$new['id_news']?>"><?=$new['title']?></a></h4>
                                             <em><?=$new['date']?></em>
@@ -38,16 +35,13 @@
                     <?php } else {echo "Нет новостей в данной категории";} ?>
                 </div>
                 <hr>
+                <nav style="text-align: center">
+                    <?php echo $pagination->get(); ?>
+                </nav>
+
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                Реклама
-            </div>
-        </div>
-    </div>
 
 
-    <nav style="text-align: center">
-        <?php echo $pagination->get(); ?>
-    </nav>
+
 
 <?php include (VIEWS_PATH . DS . 'layouts' . DS . 'footer.php');?>
